@@ -1,0 +1,114 @@
+** to run the docker ingest scrip normally
+URL = "https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.csv"
+python ingest_data.py \
+  --user=root \
+  --password=root \
+  --host=localhost \
+  --port=2345 \
+  --db=ny_taxi \
+  --table_name=yellow_taxi_trips \
+  --url=https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.csv
+
+
+** to run the docker ingest script from taxi_ingest image
+URL = "http://192.168.0.132:8000/upload-data.ipynb"
+
+docker run -it taxi_ingest:v001 \
+  --network=pg-network \
+  --user=root \
+  --password=root \
+  --host=localhost \
+  --port=2345 \
+  --db=ny_taxi \
+  --table_name=yellow_taxi_trips \
+  --url=${URL}
+
+  --url=https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.csv
+
+
+**POSTGRES_DB -- HAD TO RUN WITHOUT -V volume vraible as it keeps throwing errors
+
+docker run -it \
+-e POSTGRES_USER="root" \
+-e POSTGRES_PASSWORD="root" \
+-e POSTGRES_DB="ny_taxi" \
+-v c:\users\a\desktop\data engineering\projects\data-engineering-zoomcamp\week_1_basics_n_setup\2_docker_sql\ny_taxi_postgres_data:var/lib/postgresql/data \
+-p 2345:5432 \
+postgres:13
+
+**NETWROK -- create a new network
+docker network create pg-network
+
+
+**postgres in a docker network
+docker network create pg-network
+
+docker run -it \
+-e POSTGRES_USER="root" \
+-e POSTGRES_PASSWORD="root" \
+-e POSTGRES_DB="ny_taxi" \
+--network=pg-network \
+--name pg-database \
+-p 2345:5432 \
+postgres:13
+
+
+
+
+*********************
+url= "http://192.168.0.132:8000/output.csv"
+
+docker run -it \
+  --network=pg-network \
+  taxi_ingest:v001 \
+    --user=root \
+    --password=root \
+    --host=localhost \
+    --port=2345 \
+    --db=ny_taxi \
+    --table_name=yellow_taxi_trips \
+    --url=http://192.168.0.132:8000/output.csv
+
+
+
+python ingest_data.py \
+    --user=root \
+    --password=root \
+    --host=localhost \
+    --port=2345 \
+    --db=ny_taxi \
+    --table_name=yellow_taxi_trips \
+    --url=http://192.168.0.132:8000/output.csv
+
+
+python ingest_data.py \
+  --user=root \
+  --password=root \
+  --host=localhost \
+  --port=2345 \
+  --db=ny_taxi \
+  --table_name=yellow_taxi_trips \
+  --url=http://192.168.0.132:8000/yellow_tripdata_2021-01.csv
+
+
+**PG_ADMIN4 
+docker run -it \
+-e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+-e PGADMIN_DEFAULT_PASSWORD="root" \
+-p 8080:80 \
+dpage/pgadmin4
+
+
+
+** pgadmin4 in a network
+docker run -it \
+-e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+-e PGADMIN_DEFAULT_PASSWORD="root" \
+--network=pg-network \
+--name pgadmin4 \
+-p 8080:80 \
+dpage/pgadmin4
+
+
+**terraform set up solution
+-- https://www.radishlogic.com/terraform/how-to-install-terraform-in-windows-11/
