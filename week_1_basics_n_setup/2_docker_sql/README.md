@@ -159,6 +159,25 @@ python ingest_data.py \
   --url=${URL}
 ```
 
+### Below Data ingestion Linux worked for me
+````
+** Data insert from dockerized image/script **LINUX**
+URL="http://172.20.224.67:1000/yellow_tripdata_2021-01.csv"
+URL="https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.csv"
+
+docker run  -it \
+  --network=pg-network \
+  taxi_ingest:v001 \
+    --user=root \
+    --password=root \
+    --host=pg-database \
+    --port=5432 \
+    --db=ny_taxi \
+    --table_name=yellow_taxi_trips \
+    --url=${URL}
+
+````
+
 Build the image
 
 ```bash
