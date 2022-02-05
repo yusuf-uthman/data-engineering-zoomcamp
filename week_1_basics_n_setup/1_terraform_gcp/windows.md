@@ -87,7 +87,7 @@ Optionally you can configure your terraform files (`variables.tf`) to include yo
 ```bash
 variable "project" {
   description = "Your GCP Project ID"
-  default = "ny-rides-alexey"
+  default = "de-zoom-camp-339323"
   type = string
 }
 ```
