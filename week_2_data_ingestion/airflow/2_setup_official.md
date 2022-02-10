@@ -6,7 +6,8 @@
     rename your gcp-service-accounts-credentials file to `google_credentials.json` & store it in your `$HOME` directory
     ``` bash
         cd ~ && mkdir -p ~/.google/credentials/
-        mv <path/to/your/service-account-authkeys>.json ~/.google/credentials/google_credentials.json
+        mv C:\Users\A\Downloads\google_credentials.json ~/.google/credentials/google_credentials.json
+       ### C:\Users\A\Downloads\google_credentials.json
     ```
 
 2. You may need to upgrade your docker-compose version to v2.x+, and set the memory for your Docker Engine to minimum 5GB
