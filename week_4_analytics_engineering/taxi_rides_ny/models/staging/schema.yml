@@ -14,6 +14,7 @@ sources:
         - name: green_trip_data
         - name: yellow_trip_data
         - name: taxi_zone_lookup
+        - name: fhv_trip_data
          # freshness:
            # error_after: {count: 6, period: hour}
 
