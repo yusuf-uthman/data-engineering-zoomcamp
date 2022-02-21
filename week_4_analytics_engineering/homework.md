@@ -22,16 +22,32 @@ only if you want to.
 You'll need to have completed the "Build the first dbt models" video and have been able to run the models via the CLI. 
 You should find the views and models for querying in your DWH.
 
+Ans = 61,603,000
+
+SELECT 
+count(*) 
+FROM `de-zoom-camp-339323.trips_data_all.fact_trips`
+WHERE DATE(pickup_datetime ) BETWEEN  '2019-01-01' AND '2020-12-31'
+
 ### Question 2: 
 **What is the distribution between service type filtering by years 2019 and 2020 data as done in the videos**
 
 You will need to complete "Visualising the data" videos, either using data studio or metabase. 
 
+yellow: 90.9%
+green: 9.1%
+
 ### Question 3: 
 **What is the count of records in the model stg_fhv_tripdata after running all models with the test run variable disabled (:false)**  
-
 Create a staging model for the fhv data for 2019. Run it via the CLI without limits (is_test_run: false).
 Filter records with pickup time in year 2019.
+
+Ans = 36,091,586
+
+SELECT 
+count(*) 
+FROM `de-zoom-camp-339323.trips_data_all.stg_fhv_trip_data` 
+WHERE date(pickup_datetime) BETWEEN '2019-01-01' AND '2019-12-31'
 
 ### Question 4: 
 **What is the count of records in the model fact_fhv_trips after running all dependencies with the test run variable disabled (:false)**  
@@ -40,8 +56,27 @@ Create a core model for the stg_fhv_tripdata joining with dim_zones.
 Similar to what we've done in fact_trips, keep only records with known pickup and dropoff locations entries for pickup and dropoff locations. 
 Run it via the CLI without limits (is_test_run: false) and filter records with pickup time in year 2019.
 
+Ans = 17,581,948
+
+SELECT
+count(*) 
+FROM `de-zoom-camp-339323.trips_data_all.fact_fhv_trip_data` 
+WHERE date(pickup_datetime) BETWEEN '2019-01-01' AND '2019-12-31'
+
 ### Question 5: 
 **What is the month with the biggest amount of rides after building a tile for the fact_fhv_trips table**
 Create a dashboard with some tiles that you find interesting to explore the data. One tile should show the amount of trips per month, as done in the videos for fact_trips, based on the fact_fhv_trips table.
 
+Ans = January 14,979,716
 
+select * 
+from (
+SELECT FORMAT_DATETIME("%B", DATE(pickup_datetime)) as month_name,extract(isoyear from pickup_datetime) as yearr,
+count(*) countt
+--rank() over (partition by extract(month from pickup_datetime), extract(isoyear from pickup_datetime) order by count(*) desc) as rnk
+FROM `de-zoom-camp-339323.trips_data_all.fact_fhv_trip_data` 
+WHERE date(pickup_datetime) BETWEEN '2019-01-01' AND '2019-12-31'
+group by FORMAT_DATETIME("%B", DATE(pickup_datetime)),extract(isoyear from pickup_datetime)
+)
+order by countt desc
+limit 1
