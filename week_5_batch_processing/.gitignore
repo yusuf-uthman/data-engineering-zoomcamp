@@ -3,3 +3,4 @@ zones/
 *.csv
 .ipynb_checkpoints/
 *.crc
+data/
