@@ -2,3 +2,4 @@ fhvhv/
 zones/
 *.csv
 .ipynb_checkpoints/
+*.crc
