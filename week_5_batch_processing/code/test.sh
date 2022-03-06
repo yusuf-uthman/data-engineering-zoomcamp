@@ -3,9 +3,10 @@ set -e
 TAXI_TYPE=$1 # "green"
 YEAR=$2       #"2019"
 
+
 URL_PREFIX="https://s3.amazonaws.com/nyc-tlc/trip+data"
 
-for MONTH in {6..12}; do
+for MONTH in {1..12}; do
   FMONTH=`printf "%02d" ${MONTH}`
 
   URL="${URL_PREFIX}/${TAXI_TYPE}_tripdata_${YEAR}-${FMONTH}.csv"
